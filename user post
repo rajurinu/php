@@ -1,0 +1,26 @@
+<?php
+    if (isset($_POST['GuestName'])) {
+        mysql_connect("localhost", "phpuser", "alm65z");
+        mysql_select_db("phpdb");
+
+        $GuestName = addslashes($_POST['GuestName']);
+        $GuestEmail = addslashes($_POST['GuestEmail']);
+        $GuestMessage = addslashes($_POST['GuestMessage']);
+        $CurrentTime = time();
+    
+        $result = mysql_query("INSERT INTO guestbook (GuestName, GuestEmail, GuestMessage, DateSubmitted) VALUES ('$GuestName', '$GuestEmail', '$GuestMessage', $CurrentTime);");
+        if ($result) {
+            echo "Thanks for posting - click <a href=\"read.php\">here</a> to view the guestbook with your message added!";
+            exit;
+        } else {
+            echo "There was an error adding your guestbook entry - please try again, filling in all fields.";
+        }
+    }
+?>
+
+<form method="post" action="post.php">
+Name: <input type="text" name="GuestName" /><br />
+Email: <input type="text" name="GuestEmail" /><br /><br />
+Message:<br /><textarea rows="10" cols="40" name="GuestMessage" /></textarea><br /><br />
+<input type="submit" value="Post" />
+</form>
