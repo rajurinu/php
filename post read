@@ -1,0 +1,18 @@
+<?php
+    mysql_connect("localhost", "phpuser", "alm65z");
+    mysql_select_db("phpdb");
+    
+    $result = mysql_query("SELECT GuestName, GuestEmail, GuestMessage, DateSubmitted FROM guestbook ORDER BY DateSubmitted DESC;");
+    if (mysql_num_rows($result)) {
+        while ($row = mysql_fetch_assoc($result)) {
+            extract($row, EXTR_PREFIX_ALL, 'gb');
+            $gb_DateSubmitted = date("jS of F Y", $gb_DateSubmitted);
+            echo "<strong>Posted by <a href=\"mailto:$gb_GuestEmail\">$gb_GuestName</a> on $gb_DateSubmitted</strong><br />";
+            echo "$gb_GuestMessage<br /><br />";
+        }
+    } else {
+        echo "<em>This guestbook has no messages!</em><br /><br />";
+    }
+?>
+
+<a href="post.php">Add a message to this guestbook</a>
